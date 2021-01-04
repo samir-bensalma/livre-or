@@ -6,14 +6,17 @@ $password = "";
 $dbname = "livreor";
 $login = $_SESSION['login'];
 $sql = mysqli_connect($servername, $username, $password, $dbname);
-$query = mysqli_query($sql, 'SELECT commentaire, date, login FROM `commentaires` INNER JOIN utilisateurs ON commentaires.id_utilisateur = utilisateurs.id ORDER BY date DESC');
+$query = mysqli_query($sql, 'SELECT commentaire, date, login FROM `commentaires` INNER JOIN utilisateurs ON utilisateurs.id = commentaires.id_utilisateur ORDER BY date DESC');
 $all_result = mysqli_fetch_all($query);
 $coucou = "";
+$let_comment = "";
+$deconnecter = "";
 
 if (isset($_SESSION['login'])) {
     $coucou = 'Coucou ' . $_SESSION['login'] . ' n\'hésite pas à laisser un commentaire';
-    $connecter = '
-                <a href="profil.php">Mon Profil</a>';
+    $connecter = '<a href="profil.php">Mon Profil</a>';
+    $let_comment = '<a href="commentaire.php">Laissez un Commentaire</a>';
+
 } else {
     $deconnecter = '<a href="inscription.php">Inscription</a>
                     <a href="connexion.php">Connexion</a>';
@@ -27,7 +30,7 @@ if (isset($_SESSION['login'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="assets/css/style.css">
     <title>Manag€uro</title>
 </head>
 
@@ -40,7 +43,12 @@ if (isset($_SESSION['login'])) {
         </div>
         <nav>
             <a href="index.php">Accueil</a>
-            <a href="commentaire.php"><u><b>Les Commentaires</b></u></a>
+            <?php
+echo $deconnecter;
+echo $connecter;
+?>
+            <a href="livre-or.php"><u><b>Livre d'or</b></u></a>
+            <?php echo $let_comment ?>
         </nav>
     </header>
     <main>
